@@ -13,6 +13,9 @@
             <input type="text" class="form-control col-2 mr-2" name="nom" aria-describedby="emailHelp">
             <input type="text" class="form-control col-2 mr-2" name="prenom">
             <button id="submit" name="submit" type="submit" class="btn btn-primary">Soumettre</button>
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
     </form>
 </div>
@@ -20,6 +23,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script>
+    $('.spinner-border').hide();
+
     /**
          * Serialization
          */
@@ -46,7 +51,7 @@
             var form = $("#form");
 
             // always makes sense to signal user that something is happening
-            $('#loadingSpinner').show();
+            $('.spinner-border').show();
 
             // simple approach avoid submitting multiple times
             $('#submit').attr("disabled", true);
@@ -69,8 +74,10 @@
                         console.log("[API] SUCCESS: " + data.message);
                     }
                     // signal to user the action is done
-                    $('#loadingSpinner').hide();
+                    $('.spinner-border').hide();
                     $('#submit').attr("disabled", false);
+
+                    alert("LEs données ont été soumises")
                 }
 
 
