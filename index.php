@@ -9,8 +9,10 @@
 <body>
 <div class="container mt-4">
     <form id="form" action="submitform.php" method="POST">
+        <div class="alert alert-danger" style="display: none;" id="errNom">Le nom dois être supérieur à 6</div>
+        <div class="alert alert-danger" style="display: none;" id="errPrenom">Le prénom dois être supérieur à 6</div>
         <div class="d-flex flex-row">
-            <input type="text" class="form-control col-2 mr-2" name="nom" aria-describedby="emailHelp">
+            <input type="text" class="form-control col-2 mr-2" name="nom" >
             <input type="text" class="form-control col-2 mr-2" name="prenom">
             <button id="submit" name="submit" type="submit" class="btn btn-primary">Soumettre</button>
             <div class="spinner-border" role="status">
@@ -60,24 +62,24 @@
             var form_data = form.serializeObject();
 
             // the actual request to your newAction
-            $.ajax({
+            $.get({
                 url: '/submitform.php',
                 type: 'POST',
+                dataType: 'json',
                 data: form_data,
+              
+                success: function(data){
+                    if(data['nom'] == true)
+                      $('#errNom').css("display", "block");
+                    
+                    if(data['prenom'] == true)
+                      $('#errPrenom').css("display", "block");
 
-                success: function (data) {
-                    // handling the response data from the controller
-                    if (data.status === 'error') {
-                        console.log("[API] ERROR: " + data.message);
-                    }
-                    if (data.status === 'success') {
-                        console.log("[API] SUCCESS: " + data.message);
-                    }
                     // signal to user the action is done
                     $('.spinner-border').hide();
                     $('#submit').attr("disabled", false);
 
-                    alert("LEs données ont été soumises")
+
                 }
 
 
